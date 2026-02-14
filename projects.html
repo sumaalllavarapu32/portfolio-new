@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projects | Suma</title>
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+/* ===================== VARIABLES ===================== */
+:root {
+    --bg-deep: #020617;
+    --bg-light: #0f172a;
+    
+    --primary: #22d3ee;   /* Cyan */
+    --secondary: #f472b6; /* Pink */
+    --gradient-main: linear-gradient(135deg, var(--primary), var(--secondary));
+
+    --text-white: #f8fafc;
+    --text-gray: #94a3b8;
+
+    --glass-bg: rgba(15, 23, 42, 0.6);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-blur: 16px;
+}
+
+/* ===================== RESET ===================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--bg-deep);
+    color: var(--text-white);
+    overflow-x: hidden;
+    min-height: 100vh;
+    position: relative;
+}
+
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: radial-gradient(circle at center, #1e293b 0%, #020617 100%);
+}
+
+/* ===================== HEADER (Consistent with Home) ===================== */
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 1rem 5%;
+    background: rgba(2, 6, 23, 0.8);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--glass-border);
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    gap: 12px;
+}
+
+.logo-img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--primary);
+    box-shadow: 0 0 12px rgba(34, 211, 238, 0.4);
+    transition: transform 0.3s ease;
+}
+
+.logo-img:hover {
+    transform: scale(1.1);
+}
+
+.logo-text {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: white;
+    letter-spacing: 0.5px;
+}
+
+nav ul {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+}
+
+nav a {
+    text-decoration: none;
+    color: var(--text-gray);
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+nav a:hover, nav a.active {
+    color: var(--primary);
+}
+
+nav a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -5px;
+    left: 0;
+    background: var(--gradient-main);
+    transition: width 0.3s;
+}
+
+nav a:hover::after {
+    width: 100%;
+}
+
+.hamburger {
+    display: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: white;
+}
+
+/* ===================== MAIN ===================== */
+main {
+    padding-top: 120px;
+    max-width: 1200px;
+    margin: auto;
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-bottom: 5rem;
+}
+
+/* ===================== SECTION HEADER ===================== */
+.section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.section-header h2 {
+    font-size: 2.8rem;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(to right, #fff, var(--text-gray));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.section-header p {
+    color: var(--text-gray);
+    font-size: 1.1rem;
+}
+
+/* ===================== PROJECT GRID ===================== */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2.5rem;
+}
+
+/* ===================== PROJECT CARD ===================== */
+.project-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    overflow: hidden;
+    backdrop-filter: blur(var(--glass-blur));
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    flex-direction: column;
+}
+
+.project-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--primary);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}
+
+/* Image Container */
+.project-image {
+    width: 100%;
+    height: 220px;
+    overflow: hidden;
+    position: relative;
+}
+
+.project-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.project-card:hover .project-image img {
+    transform: scale(1.1); /* Zoom Effect */
+}
+
+/* Content */
+.project-content {
+    padding: 2rem;
+    flex: 1; 
+    display: flex;
+    flex-direction: column;
+}
+
+.project-content h3 {
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+    color: white;
+}
+
+.project-content p {
+    font-size: 0.95rem;
+    color: var(--text-gray);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+    flex-grow: 1;
+}
+
+/* Tags */
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    /* No margin bottom needed now since buttons are gone */
+}
+
+.tag {
+    padding: 0.3rem 0.8rem;
+    font-size: 0.75rem;
+    border-radius: 20px;
+    background: rgba(34, 211, 238, 0.1);
+    color: var(--primary);
+    border: 1px solid rgba(34, 211, 238, 0.2);
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.tag:hover {
+    background: var(--primary);
+    color: #020617;
+}
+
+/* ===================== FOOTER ===================== */
+footer {
+    padding: 2rem;
+    text-align: center;
+    color: var(--text-gray);
+    font-size: 0.9rem;
+    border-top: 1px solid var(--glass-border);
+    background: rgba(2,6,23,0.9);
+}
+
+/* ===================== RESPONSIVE ===================== */
+@media (max-width: 768px) {
+    .hamburger {
+        display: block;
+    }
+
+    nav {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: rgba(2, 6, 23, 0.95);
+        backdrop-filter: blur(15px);
+        border-bottom: 1px solid var(--glass-border);
+        overflow: hidden;
+        max-height: 0;
+        transition: max-height 0.4s ease-out;
+    }
+
+    nav.active {
+        max-height: 300px;
+    }
+
+    nav ul {
+        flex-direction: column;
+        padding: 2rem;
+        gap: 1.5rem;
+        text-align: center;
+    }
+    
+    .section-header h2 {
+        font-size: 2.2rem;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="bg"></canvas>
+
+<header>
+    <a href="index.html" class="logo">
+        <!-- Keeping your local image path -->
+        <img src="C:\Users\allav\OneDrive\Documents\Desktop\Full Stack\Portfolio new\Suma.jpeg" alt="Suma" class="logo-img">
+        <span class="logo-text">My Portfolio</span>
+    </a>
+
+    <div class="hamburger" id="hamburger">
+        <i class="fas fa-bars"></i>
+    </div>
+
+    <nav id="nav-menu">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="skills.html">Skills</a></li>
+            <li><a href="projects.html" class="active">Projects</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <div class="section-header">
+        <h2>Featured Projects</h2>
+        <p>A selection of my recent work demonstrating modern web development skills.</p>
+    </div>
+
+    <div class="projects-grid">
+
+        <!-- PROJECT 1 -->
+        <div class="project-card">
+            <div class="project-image">
+                <img src="c:\Users\allav\Downloads\Gemini_Generated_Image_eewizreewizreewi.png" alt="Portfolio Website">
+            </div>
+            <div class="project-content">
+                <h3>Portfolio Website</h3>
+                <p>A fully responsive personal portfolio showcasing professional skills. Features dark mode toggle, glassmorphism UI, and a custom particle background system built with Vanilla JS.</p>
+                <div class="tags">
+                    <span class="tag">HTML5</span>
+                    <span class="tag">CSS3</span>
+                    <span class="tag">JavaScript</span>
+                    <span class="tag">Canvas API</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- PROJECT 2 -->
+        <div class="project-card">
+            <div class="project-image">
+                <img src="C:\Users\allav\Downloads\Gemini_Generated_Image_ubwl4oubwl4oubwl.png" alt="Calculator">
+            </div>
+            <div class="project-content">
+                <h3>Smart Calculator</h3>
+                <p>An advanced calculator web application supporting scientific operations. Includes keyboard event listeners, calculation history stored in LocalStorage, and a clean, accessible interface.</p>
+                <div class="tags">
+                    <span class="tag">JavaScript</span>
+                    <span class="tag">DOM Manipulation</span>
+                    <span class="tag">CSS Grid</span>
+                    <span class="tag">LocalStorage</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- PROJECT 3 -->
+        <div class="project-card">
+            <div class="project-image">
+                <img src="C:\Users\allav\Downloads\Gemini_Generated_Image_f7p6wof7p6wof7p6.png" alt="Weather App">
+            </div>
+            <div class="project-content">
+                <h3>Weather Dashboard</h3>
+                <p>A dynamic weather application fetching real-time data from the OpenWeather API. Displays temperature, humidity, and wind speed with dynamic icons based on weather conditions.</p>
+                <div class="tags">
+                    <span class="tag">Fetch API</span>
+                    <span class="tag">Async/Await</span>
+                    <span class="tag">JSON</span>
+                    <span class="tag">CSS Flexbox</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<footer>
+    <p>© 2025 Suma. Designed with <i class="fas fa-heart" style="color: var(--secondary);"></i> & Code.</p>
+</footer>
+
+<!-- ===================== SCRIPTS ===================== -->
+<script>
+/* --- 1. MOBILE MENU --- */
+const hamburger = document.getElementById('hamburger');
+const nav = document.getElementById('nav-menu');
+const icon = hamburger.querySelector('i');
+
+hamburger.addEventListener('click', () => {
+    nav.classList.toggle('active');
+    if(nav.classList.contains('active')) {
+        icon.classList.remove('fa-bars');
+        icon.classList.add('fa-times');
+    } else {
+        icon.classList.remove('fa-times');
+        icon.classList.add('fa-bars');
+    }
+});
+
+document.querySelectorAll('nav a').forEach(link => {
+    link.addEventListener('click', () => {
+        nav.classList.remove('active');
+        icon.classList.remove('fa-times');
+        icon.classList.add('fa-bars');
+    });
+});
+
+/* --- 2. CONSTELLATION BACKGROUND --- */
+const canvas = document.getElementById("bg");
+const ctx = canvas.getContext("2d");
+
+let width, height;
+let particles = [];
+const connectionDistance = 150;
+const mouseDistance = 200;
+let mouse = { x: null, y: null };
+
+window.addEventListener('mousemove', (e) => {
+    mouse.x = e.x;
+    mouse.y = e.y;
+});
+
+window.addEventListener('resize', resize);
+
+function resize() {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+    initParticles();
+}
+
+class Particle {
+    constructor() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.vx = (Math.random() - 0.5) * 0.5;
+        this.vy = (Math.random() - 0.5) * 0.5;
+        this.size = Math.random() * 2 + 1;
+        this.color = '#22d3ee';
+    }
+
+    update() {
+        this.x += this.vx;
+        this.y += this.vy;
+
+        if (this.x < 0 || this.x > width) this.vx *= -1;
+        if (this.y < 0 || this.y > height) this.vy *= -1;
+
+        let dx = mouse.x - this.x;
+        let dy = mouse.y - this.y;
+        let distance = Math.sqrt(dx*dx + dy*dy);
+        
+        if (distance < mouseDistance && mouse.x !== null) {
+            const forceDirectionX = dx / distance;
+            const forceDirectionY = dy / distance;
+            const force = (mouseDistance - distance) / mouseDistance;
+            const directionX = forceDirectionX * force * 0.5;
+            const directionY = forceDirectionY * force * 0.5;
+            this.vx -= directionX; 
+            this.vy -= directionY;
+        }
+    }
+
+    draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+    }
+}
+
+function initParticles() {
+    particles = [];
+    const count = (width * height) / 15000; 
+    for (let i = 0; i < count; i++) {
+        particles.push(new Particle());
+    }
+}
+
+function animate() {
+    ctx.clearRect(0, 0, width, height);
+    
+    for (let i = 0; i < particles.length; i++) {
+        particles[i].update();
+        particles[i].draw();
+
+        for (let j = i; j < particles.length; j++) {
+            let dx = particles[i].x - particles[j].x;
+            let dy = particles[i].y - particles[j].y;
+            let distance = Math.sqrt(dx*dx + dy*dy);
+
+            if (distance < connectionDistance) {
+                ctx.beginPath();
+                let opacity = 1 - (distance / connectionDistance);
+                ctx.strokeStyle = `rgba(34, 211, 238, ${opacity * 0.15})`;
+                ctx.lineWidth = 1;
+                ctx.moveTo(particles[i].x, particles[i].y);
+                ctx.lineTo(particles[j].x, particles[j].y);
+                ctx.stroke();
+            }
+        }
+    }
+    requestAnimationFrame(animate);
+}
+
+resize();
+animate();
+</script>
+</body>
+</html>

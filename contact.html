@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact | Suma</title>
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+:root {
+    /* Deeper, richer dark tones */
+    --bg-deep: #020617;
+    --bg-light: #0f172a;
+    
+    --primary: #22d3ee;   /* Cyan */
+    --secondary: #f472b6; /* Pink */
+    --gradient-main: linear-gradient(135deg, var(--primary), var(--secondary));
+
+    --text-white: #f8fafc;
+    --text-gray: #94a3b8;
+
+    /* Enhanced Glassmorphism */
+    --glass-bg: rgba(15, 23, 42, 0.6);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-blur: 16px;
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--bg-deep);
+    color: var(--text-white);
+    overflow-x: hidden;
+    min-height: 100vh;
+    position: relative;
+}
+
+/* BACKGROUND CANVAS */
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: radial-gradient(circle at center, #1e293b 0%, #020617 100%);
+}
+
+/* HEADER */
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 1rem 5%;
+    background: rgba(2, 6, 23, 0.8);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--glass-border);
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* LOGO STYLES - Updated for Image */
+.logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    gap: 12px; /* Space between photo and name */
+}
+
+.logo-img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%; /* Makes image round */
+    object-fit: cover;   /* Ensures image fits nicely without stretching */
+    border: 2px solid var(--primary); /* Cyan border around photo */
+    box-shadow: 0 0 12px rgba(34, 211, 238, 0.4); /* Glow effect */
+}
+
+.logo-text {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: white;
+    letter-spacing: 0.5px;
+}
+
+nav ul {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+}
+
+nav a {
+    color: var(--text-gray);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+nav a:hover, nav a.active {
+    color: var(--primary);
+}
+
+nav a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -5px;
+    left: 0;
+    background: var(--gradient-main);
+    transition: width 0.3s;
+}
+
+nav a:hover::after {
+    width: 100%;
+}
+
+/* Mobile Hamburger */
+.hamburger {
+    display: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: white;
+}
+
+/* MAIN CONTENT */
+main {
+    padding-top: 120px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 1200px;
+    margin: auto;
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-bottom: 4rem;
+}
+
+/* SECTION STYLES */
+.contact-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.contact-header h2 {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(to right, #fff, #94a3b8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.contact-header p {
+    color: var(--text-gray);
+    font-size: 1.1rem;
+}
+
+/* GRID */
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 4rem;
+    align-items: start;
+}
+
+/* INFO CARDS */
+.info-group {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.info-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+    padding: 1.5rem;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.info-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary);
+    box-shadow: 0 10px 30px -10px rgba(34, 211, 238, 0.3);
+    background: rgba(15, 23, 42, 0.8);
+}
+
+.icon-box {
+    width: 50px;
+    height: 50px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.4rem;
+    color: var(--primary);
+    transition: 0.3s;
+}
+
+.info-card:hover .icon-box {
+    background: var(--primary);
+    color: #000;
+}
+
+.info-text h4 {
+    font-size: 1.1rem;
+    color: var(--text-white);
+    margin-bottom: 0.2rem;
+}
+
+.info-text p {
+    color: var(--text-gray);
+    font-size: 0.9rem;
+}
+
+/* FORM */
+.form-container {
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+    padding: 2.5rem;
+    border-radius: 20px;
+    box-shadow: var(--glass-shadow);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.form-control {
+    width: 100%;
+    padding: 1rem 1.2rem;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    color: white;
+    font-size: 1rem;
+    transition: 0.3s;
+    outline: none;
+}
+
+.form-control:focus {
+    border-color: var(--primary);
+    background: rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0 0 4px rgba(34, 211, 238, 0.1);
+}
+
+textarea.form-control {
+    resize: vertical;
+    min-height: 140px;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 1rem;
+    border: none;
+    border-radius: 12px;
+    background: var(--gradient-main);
+    color: #0f172a;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.4s;
+    position: relative;
+    overflow: hidden;
+}
+
+.submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px -5px rgba(244, 114, 182, 0.5);
+}
+
+.submit-btn:active {
+    transform: scale(0.98);
+}
+
+/* TOAST NOTIFICATION */
+.toast {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: rgba(15, 23, 42, 0.95);
+    border: 1px solid var(--primary);
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transform: translateY(100px);
+    opacity: 0;
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    z-index: 2000;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.toast.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.toast i {
+    color: var(--primary);
+    font-size: 1.2rem;
+}
+
+/* FOOTER */
+footer {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-gray);
+    font-size: 0.9rem;
+    border-top: 1px solid var(--glass-border);
+    background: rgba(2,6,23,0.9);
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+    .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    nav {
+        position: absolute;
+        top: 70px;
+        right: 0;
+        width: 100%;
+        background: rgba(2,6,23,0.95);
+        backdrop-filter: blur(15px);
+        flex-direction: column;
+        padding: 2rem;
+        border-bottom: 1px solid var(--glass-border);
+        transform: translateY(-150%);
+        transition: transform 0.4s ease;
+        align-items: center;
+    }
+
+    nav.active {
+        transform: translateY(0);
+    }
+
+    nav ul {
+        flex-direction: column;
+        gap: 1.5rem;
+        text-align: center;
+    }
+
+    .hamburger {
+        display: block;
+    }
+    
+    .contact-header h2 {
+        font-size: 2.2rem;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="bg"></canvas>
+
+<!-- TOAST NOTIFICATION -->
+<div class="toast" id="toast">
+    <i class="fas fa-check-circle"></i>
+    <div>
+        <h4 style="font-size: 0.95rem; margin-bottom: 2px;">Message Sent!</h4>
+        <p style="font-size: 0.8rem; color: var(--text-gray);">I'll get back to you soon.</p>
+    </div>
+</div>
+
+<header>
+    <!-- UPDATED LOGO WITH IMAGE -->
+    <a href="index.html" class="logo">
+        <!-- Nee local image path kodukunna -->
+        <img src="C:\Users\allav\OneDrive\Documents\Desktop\Full Stack\Portfolio new\Suma.jpeg" alt="Suma" class="logo-img">
+    </a>
+    
+    <div class="hamburger" id="hamburger">
+        <i class="fas fa-bars"></i>
+    </div>
+    <nav id="nav-menu">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="skills.html">Skills</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="contact.html" class="active">Contact</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <section class="contact-header">
+        <h2>Let's Work Together</h2>
+        <p>Have a project in mind? Fill out the form below or reach out directly.</p>
+    </section>
+
+    <div class="contact-grid">
+        
+        <!-- INFO CARDS -->
+        <div class="info-group">
+            <div class="info-card">
+                <div class="icon-box">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="info-text">
+                    <h4>Email</h4>
+                    <p>suma@example.com</p>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <div class="icon-box">
+                    <i class="fab fa-linkedin-in"></i>
+                </div>
+                <div class="info-text">
+                    <h4>LinkedIn</h4>
+                    <p>linkedin.com/in/suma</p>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <div class="icon-box">
+                    <i class="fab fa-github"></i>
+                </div>
+                <div class="info-text">
+                    <h4>GitHub</h4>
+                    <p>github.com/suma</p>
+                </div>
+            </div>
+            
+            <!-- Extra Card for Location/Phone placeholder -->
+            <div class="info-card">
+                <div class="icon-box">
+                    <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <div class="info-text">
+                    <h4>Location</h4>
+                    <p>Amalapuram, India</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTACT FORM -->
+        <div class="form-container">
+            <form id="contactForm">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Your Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" class="form-control" placeholder="Your Email Address" required>
+                </div>
+                <div class="form-group">
+                    <textarea class="form-control" placeholder="Your Message" rows="6" required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Send Message <i class="fas fa-paper-plane" style="margin-left: 8px;"></i></button>
+            </form>
+        </div>
+
+    </div>
+</main>
+
+<footer>
+    <p>© 2025 Suma. Designed with <i class="fas fa-heart" style="color: var(--secondary); font-size: 0.8rem;"></i> & Code.</p>
+</footer>
+
+<!-- ADVANCED SCRIPTING -->
+<script>
+/* --- 1. ADVANCED PARTICLE ANIMATION (Constellation Effect) --- */
+const canvas = document.getElementById("bg");
+const ctx = canvas.getContext("2d");
+
+let width, height;
+let particles = [];
+const particleCount = 60; // Adjust for density
+const connectionDistance = 150;
+const mouseDistance = 200;
+
+// Mouse tracking
+let mouse = { x: null, y: null };
+
+window.addEventListener('mousemove', (e) => {
+    mouse.x = e.x;
+    mouse.y = e.y;
+});
+
+window.addEventListener('resize', resize);
+
+function resize() {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+    initParticles();
+}
+
+class Particle {
+    constructor() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.vx = (Math.random() - 0.5) * 0.5; // Slow velocity
+        this.vy = (Math.random() - 0.5) * 0.5;
+        this.size = Math.random() * 2 + 1;
+        this.color = '#22d3ee'; // Cyan
+    }
+
+    update() {
+        this.x += this.vx;
+        this.y += this.vy;
+
+        // Bounce off edges
+        if (this.x < 0 || this.x > width) this.vx *= -1;
+        if (this.y < 0 || this.y > height) this.vy *= -1;
+
+        // Mouse Interaction
+        let dx = mouse.x - this.x;
+        let dy = mouse.y - this.y;
+        let distance = Math.sqrt(dx*dx + dy*dy);
+        
+        if (distance < mouseDistance && mouse.x !== null) {
+            const forceDirectionX = dx / distance;
+            const forceDirectionY = dy / distance;
+            const force = (mouseDistance - distance) / mouseDistance;
+            const directionX = forceDirectionX * force * 0.5;
+            const directionY = forceDirectionY * force * 0.5;
+            this.vx -= directionX; // Push away slightly
+            this.vy -= directionY;
+        }
+    }
+
+    draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+    }
+}
+
+function initParticles() {
+    particles = [];
+    // Calculate number of particles based on screen size
+    const count = (width * height) / 15000; 
+    for (let i = 0; i < count; i++) {
+        particles.push(new Particle());
+    }
+}
+
+function animate() {
+    ctx.clearRect(0, 0, width, height);
+    
+    for (let i = 0; i < particles.length; i++) {
+        particles[i].update();
+        particles[i].draw();
+
+        // Draw Connections
+        for (let j = i; j < particles.length; j++) {
+            let dx = particles[i].x - particles[j].x;
+            let dy = particles[i].y - particles[j].y;
+            let distance = Math.sqrt(dx*dx + dy*dy);
+
+            if (distance < connectionDistance) {
+                ctx.beginPath();
+                // Opacity based on distance
+                let opacity = 1 - (distance / connectionDistance);
+                ctx.strokeStyle = `rgba(34, 211, 238, ${opacity * 0.2})`;
+                ctx.lineWidth = 1;
+                ctx.moveTo(particles[i].x, particles[i].y);
+                ctx.lineTo(particles[j].x, particles[j].y);
+                ctx.stroke();
+            }
+        }
+    }
+    requestAnimationFrame(animate);
+}
+
+// Init Canvas
+resize();
+animate();
+
+
+/* --- 2. MOBILE MENU TOGGLE --- */
+const hamburger = document.getElementById('hamburger');
+const nav = document.getElementById('nav-menu');
+
+hamburger.addEventListener('click', () => {
+    nav.classList.toggle('active');
+    // Change icon
+    const icon = hamburger.querySelector('i');
+    if(nav.classList.contains('active')) {
+        icon.classList.remove('fa-bars');
+        icon.classList.add('fa-times');
+    } else {
+        icon.classList.remove('fa-times');
+        icon.classList.add('fa-bars');
+    }
+});
+
+// Close menu when clicking a link
+document.querySelectorAll('nav a').forEach(link => {
+    link.addEventListener('click', () => {
+        nav.classList.remove('active');
+        hamburger.querySelector('i').classList.remove('fa-times');
+        hamburger.querySelector('i').classList.add('fa-bars');
+    });
+});
+
+
+/* --- 3. FORM SUBMISSION (Toast Notification) --- */
+const contactForm = document.getElementById('contactForm');
+const toast = document.getElementById('toast');
+
+contactForm.addEventListener('submit', (e) => {
+    e.preventDefault(); // Stop actual submission
+    
+    // Show Toast
+    toast.classList.add('show');
+    
+    // Clear form
+    contactForm.reset();
+
+    // Hide Toast after 3 seconds
+    setTimeout(() => {
+        toast.classList.remove('show');
+    }, 3000);
+});
+
+</script>
+</body>
+</html>

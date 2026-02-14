@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skills | Suma</title>
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+/* ===================== VARIABLES ===================== */
+:root {
+    --bg-deep: #020617;
+    --bg-light: #0f172a;
+    
+    --primary: #22d3ee;   /* Cyan */
+    --secondary: #f472b6; /* Pink */
+    --gradient-main: linear-gradient(135deg, var(--primary), var(--secondary));
+
+    --text-white: #f8fafc;
+    --text-gray: #94a3b8;
+
+    --glass-bg: rgba(15, 23, 42, 0.6);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-blur: 16px;
+}
+
+/* ===================== RESET ===================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--bg-deep);
+    color: var(--text-white);
+    overflow-x: hidden;
+    min-height: 100vh;
+    position: relative;
+}
+
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: radial-gradient(circle at center, #1e293b 0%, #020617 100%);
+}
+
+/* ===================== HEADER (Consistent) ===================== */
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 1rem 5%;
+    background: rgba(2, 6, 23, 0.8);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--glass-border);
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    gap: 12px;
+}
+
+.logo-img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--primary);
+    box-shadow: 0 0 12px rgba(34, 211, 238, 0.4);
+    transition: transform 0.3s ease;
+}
+
+.logo-img:hover {
+    transform: scale(1.1);
+}
+
+.logo-text {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: white;
+    letter-spacing: 0.5px;
+}
+
+nav ul {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+}
+
+nav a {
+    text-decoration: none;
+    color: var(--text-gray);
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+nav a:hover, nav a.active {
+    color: var(--primary);
+}
+
+nav a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -5px;
+    left: 0;
+    background: var(--gradient-main);
+    transition: width 0.3s;
+}
+
+nav a:hover::after {
+    width: 100%;
+}
+
+.hamburger {
+    display: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: white;
+}
+
+/* ===================== MAIN ===================== */
+main {
+    padding-top: 120px;
+    max-width: 1200px;
+    margin: auto;
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-bottom: 5rem;
+}
+
+/* ===================== SKILLS SECTION ===================== */
+.section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.section-header h2 {
+    font-size: 2.8rem;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(to right, #fff, var(--text-gray));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.section-header p {
+    color: var(--text-gray);
+    font-size: 1.1rem;
+}
+
+/* ===================== SKILL GRID ===================== */
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2.5rem;
+}
+
+/* ===================== SKILL CARD ===================== */
+.skill-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 2.5rem 2rem;
+    backdrop-filter: blur(var(--glass-blur));
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Professional Hover: Lift + Glow */
+.skill-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--primary);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+    background: rgba(15, 23, 42, 0.9);
+}
+
+.skill-card i {
+    font-size: 3.5rem;
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+    transition: 0.3s;
+    display: inline-block;
+}
+
+.skill-card:hover i {
+    color: var(--secondary);
+    transform: translateY(-5px);
+    text-shadow: 0 0 15px var(--secondary);
+}
+
+.skill-card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+    color: white;
+}
+
+/* ===================== PROGRESS BAR ===================== */
+.progress-wrapper {
+    margin-top: 1.5rem;
+    text-align: left;
+}
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--text-gray);
+}
+
+.skill-bar-bg {
+    width: 100%;
+    height: 8px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.skill-bar-fill {
+    height: 100%;
+    width: 0; /* JS will fill this or CSS Animation */
+    border-radius: 10px;
+    background: var(--gradient-main);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Shimmer effect on bar */
+.skill-bar-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    transform: translateX(-100%);
+    animation: shimmer 2s infinite;
+}
+
+/* Animation Delays */
+.skill-card:nth-child(1) .skill-bar-fill { animation: fillBar 1.5s ease-out 0.2s forwards; }
+.skill-card:nth-child(2) .skill-bar-fill { animation: fillBar 1.5s ease-out 0.3s forwards; }
+.skill-card:nth-child(3) .skill-bar-fill { animation: fillBar 1.5s ease-out 0.4s forwards; }
+.skill-card:nth-child(4) .skill-bar-fill { animation: fillBar 1.5s ease-out 0.5s forwards; }
+.skill-card:nth-child(5) .skill-bar-fill { animation: fillBar 1.5s ease-out 0.6s forwards; }
+.skill-card:nth-child(6) .skill-bar-fill { animation: fillBar 1.5s ease-out 0.7s forwards; }
+
+/* Entrance Animation */
+.skill-card {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: slideUpFade 0.8s ease forwards;
+}
+.skill-card:nth-child(1) { animation-delay: 0.1s; }
+.skill-card:nth-child(2) { animation-delay: 0.2s; }
+.skill-card:nth-child(3) { animation-delay: 0.3s; }
+.skill-card:nth-child(4) { animation-delay: 0.4s; }
+.skill-card:nth-child(5) { animation-delay: 0.5s; }
+.skill-card:nth-child(6) { animation-delay: 0.6s; }
+
+/* ===================== FOOTER ===================== */
+footer {
+    padding: 2rem;
+    text-align: center;
+    color: var(--text-gray);
+    font-size: 0.9rem;
+    border-top: 1px solid var(--glass-border);
+    background: rgba(2,6,23,0.9);
+}
+
+/* ===================== KEYFRAMES ===================== */
+@keyframes fillBar {
+    to { width: var(--w); }
+}
+
+@keyframes shimmer {
+    100% { transform: translateX(100%); }
+}
+
+@keyframes slideUpFade {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===================== RESPONSIVE ===================== */
+@media (max-width: 768px) {
+    .hamburger {
+        display: block;
+    }
+
+    nav {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: rgba(2, 6, 23, 0.95);
+        backdrop-filter: blur(15px);
+        border-bottom: 1px solid var(--glass-border);
+        overflow: hidden;
+        max-height: 0;
+        transition: max-height 0.4s ease-out;
+    }
+
+    nav.active {
+        max-height: 300px;
+    }
+
+    nav ul {
+        flex-direction: column;
+        padding: 2rem;
+        gap: 1.5rem;
+        text-align: center;
+    }
+    
+    .section-header h2 {
+        font-size: 2.2rem;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="bg"></canvas>
+
+<header>
+    <a href="index.html" class="logo">
+        <!-- Your local image path -->
+        <img src="C:\Users\allav\OneDrive\Documents\Desktop\Full Stack\Portfolio new\Suma.jpeg" alt="Suma" class="logo-img">
+        <span class="logo-text">My Portfolio</span>
+    </a>
+
+    <div class="hamburger" id="hamburger">
+        <i class="fas fa-bars"></i>
+    </div>
+
+    <nav id="nav-menu">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="skills.html" class="active">Skills</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <div class="section-header">
+        <h2>Technical Skills</h2>
+        <p>The tools and technologies I use to bring ideas to life.</p>
+    </div>
+
+    <div class="skills-grid">
+
+        <!-- SKILL 1: HTML -->
+        <div class="skill-card">
+            <i class="fab fa-html5"></i>
+            <h3>HTML5</h3>
+            <div class="progress-wrapper">
+                <div class="progress-info">
+                    <span>Structure</span>
+                    <span>90%</span>
+                </div>
+                <div class="skill-bar-bg">
+                    <!-- CSS Variable --w sets width -->
+                    <div class="skill-bar-fill" style="--w: 90%;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SKILL 2: CSS -->
+        <div class="skill-card">
+            <i class="fab fa-css3-alt"></i>
+            <h3>CSS</h3>
+            <div class="progress-wrapper">
+                <div class="progress-info">
+                    <span>Styling</span>
+                    <span>85%</span>
+                </div>
+                <div class="skill-bar-bg">
+                    <div class="skill-bar-fill" style="--w: 85%;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SKILL 3: JS -->
+        <div class="skill-card">
+            <i class="fab fa-js"></i>
+            <h3>JavaScript</h3>
+            <div class="progress-wrapper">
+                <div class="progress-info">
+                    <span>Logic</span>
+                    <span>75%</span>
+                </div>
+                <div class="skill-bar-bg">
+                    <div class="skill-bar-fill" style="--w: 75%;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SKILL 4: React -->
+        <div class="skill-card">
+            <i class="fab fa-react"></i>
+            <h3>React JS</h3>
+            <div class="progress-wrapper">
+                <div class="progress-info">
+                    <span>Framework</span>
+                    <span>65%</span>
+                </div>
+                <div class="skill-bar-bg">
+                    <div class="skill-bar-fill" style="--w: 65%;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SKILL 5: Git -->
+        <div class="skill-card">
+            <i class="fab fa-git-alt"></i>
+            <h3>Git & GitHub</h3>
+            <div class="progress-wrapper">
+                <div class="progress-info">
+                    <span>Version Control</span>
+                    <span>80%</span>
+                </div>
+                <div class="skill-bar-bg">
+                    <div class="skill-bar-fill" style="--w: 80%;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SKILL 6: DB -->
+        <div class="skill-card">
+            <i class="fas fa-database"></i>
+            <h3>Databases</h3>
+            <div class="progress-wrapper">
+                <div class="progress-info">
+                    <span>SQL / NoSQL</span>
+                    <span>70%</span>
+                </div>
+                <div class="skill-bar-bg">
+                    <div class="skill-bar-fill" style="--w: 70%;"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<footer>
+    <p>© 2025 Suma. Designed with <i class="fas fa-heart" style="color: var(--secondary);"></i> & Code.</p>
+</footer>
+
+<!-- ===================== SCRIPTS ===================== -->
+<script>
+/* --- 1. MOBILE MENU --- */
+const hamburger = document.getElementById('hamburger');
+const nav = document.getElementById('nav-menu');
+const icon = hamburger.querySelector('i');
+
+hamburger.addEventListener('click', () => {
+    nav.classList.toggle('active');
+    if(nav.classList.contains('active')) {
+        icon.classList.remove('fa-bars');
+        icon.classList.add('fa-times');
+    } else {
+        icon.classList.remove('fa-times');
+        icon.classList.add('fa-bars');
+    }
+});
+
+document.querySelectorAll('nav a').forEach(link => {
+    link.addEventListener('click', () => {
+        nav.classList.remove('active');
+        icon.classList.remove('fa-times');
+        icon.classList.add('fa-bars');
+    });
+});
+
+/* --- 2. CONSTELLATION BACKGROUND --- */
+const canvas = document.getElementById("bg");
+const ctx = canvas.getContext("2d");
+
+let width, height;
+let particles = [];
+const connectionDistance = 150;
+const mouseDistance = 200;
+let mouse = { x: null, y: null };
+
+window.addEventListener('mousemove', (e) => {
+    mouse.x = e.x;
+    mouse.y = e.y;
+});
+
+window.addEventListener('resize', resize);
+
+function resize() {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+    initParticles();
+}
+
+class Particle {
+    constructor() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.vx = (Math.random() - 0.5) * 0.5;
+        this.vy = (Math.random() - 0.5) * 0.5;
+        this.size = Math.random() * 2 + 1;
+        this.color = '#22d3ee';
+    }
+
+    update() {
+        this.x += this.vx;
+        this.y += this.vy;
+
+        if (this.x < 0 || this.x > width) this.vx *= -1;
+        if (this.y < 0 || this.y > height) this.vy *= -1;
+
+        let dx = mouse.x - this.x;
+        let dy = mouse.y - this.y;
+        let distance = Math.sqrt(dx*dx + dy*dy);
+        
+        if (distance < mouseDistance && mouse.x !== null) {
+            const forceDirectionX = dx / distance;
+            const forceDirectionY = dy / distance;
+            const force = (mouseDistance - distance) / mouseDistance;
+            const directionX = forceDirectionX * force * 0.5;
+            const directionY = forceDirectionY * force * 0.5;
+            this.vx -= directionX; 
+            this.vy -= directionY;
+        }
+    }
+
+    draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+    }
+}
+
+function initParticles() {
+    particles = [];
+    const count = (width * height) / 15000; 
+    for (let i = 0; i < count; i++) {
+        particles.push(new Particle());
+    }
+}
+
+function animate() {
+    ctx.clearRect(0, 0, width, height);
+    
+    for (let i = 0; i < particles.length; i++) {
+        particles[i].update();
+        particles[i].draw();
+
+        for (let j = i; j < particles.length; j++) {
+            let dx = particles[i].x - particles[j].x;
+            let dy = particles[i].y - particles[j].y;
+            let distance = Math.sqrt(dx*dx + dy*dy);
+
+            if (distance < connectionDistance) {
+                ctx.beginPath();
+                let opacity = 1 - (distance / connectionDistance);
+                ctx.strokeStyle = `rgba(34, 211, 238, ${opacity * 0.15})`;
+                ctx.lineWidth = 1;
+                ctx.moveTo(particles[i].x, particles[i].y);
+                ctx.lineTo(particles[j].x, particles[j].y);
+                ctx.stroke();
+            }
+        }
+    }
+    requestAnimationFrame(animate);
+}
+
+resize();
+animate();
+</script>
+</body>
+</html>
